@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { getCollection } from '../actions/firebase'
 import { Datatable, Header, Sidebar } from '../components'
 import { Layout } from 'antd'
@@ -11,6 +12,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <Layout>
         <Sidebar />
@@ -32,4 +34,6 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard
+const mapDispatchToProps = ({ auth }) => ({ auth })
+
+export default connect(mapDispatchToProps)(Dashboard)
