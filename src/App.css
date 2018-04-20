@@ -1,0 +1,8 @@
+@import '~antd/dist/antd.css';
+@import '~bootstrap-4-grid/css/grid.min.css';
+
+.container {
+  background-color: #fff;
+  margin: 0px auto;
+  padding: 20px;
+}
