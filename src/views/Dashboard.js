@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
+import { getCollection } from '../actions/firebase'
 import { Datatable, Header, Sidebar } from '../components'
 import { Layout } from 'antd'
-const { Content, Footer, Sider } = Layout
+const { Content, Footer } = Layout
 
 class Dashboard extends Component {
+  async componentDidMount() {
+    const documents = await getCollection('negocio')
+    console.log(documents)
+  }
+
   render() {
     return (
       <Layout>
