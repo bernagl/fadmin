@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Modal from './Modal'
-import { Divider, Icon, Table, Popconfirm } from 'antd'
+import { Divider, Icon, Table, Modal as M, Popconfirm } from 'antd'
+const { confirm } = M
 
 const dataSource = [
   {
@@ -27,14 +28,9 @@ export default class Datatable extends Component {
       render: (text, doc) => {
         return (
           <div>
-            {/* <Modal /> */}
+            <Icon type="delete" onClick={() => this.showConfirm()} />
             <Divider type="vertical" />
-            {/* <Popconfirm
-              title="Sure to delete?"
-              onConfirm={() => this.deleteDocument(doc.id)}
-            > */}
-            <Icon type="delete" onClick={() => this.showModal(doc)} />
-            {/* </Popconfirm> */}
+            <Icon type="eye-o" onClick={() => this.showModal(doc)} />
           </div>
         )
       }
@@ -60,6 +56,22 @@ export default class Datatable extends Component {
       },
       this.setActions()
     ]
+  }
+
+  showConfirm = () => {
+    confirm({
+      title: 'Do you Want to delete the selected item?',
+      content: 'Some descriptions',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK')
+      },
+      onCancel() {
+        console.log('Cancel')
+      }
+    })
   }
 
   handleOk = e => {
