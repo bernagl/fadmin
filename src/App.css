@@ -6,3 +6,11 @@
   margin: 0px auto;
   padding: 20px;
 }
+
+.ant-form-item {
+  margin-bottom: 0px;
+}
+
+.ant-modal-body{
+  padding-top: 0;
+}

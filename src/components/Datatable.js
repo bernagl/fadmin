@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Modal from './Modal'
+import Form from './Form'
 import { Divider, Icon, Table, Modal as M, Popconfirm } from 'antd'
 const { confirm } = M
 
@@ -19,7 +20,11 @@ const dataSource = [
 ]
 
 export default class Datatable extends Component {
-  state = { visible: false }
+  constructor(props) {
+    super(props)
+    this.state = { visible: false }
+    this.formRef = React.createRef()
+  }
   setActions = () => {
     return {
       title: 'Actions',
@@ -31,6 +36,7 @@ export default class Datatable extends Component {
             <Icon type="delete" onClick={() => this.showConfirm()} />
             <Divider type="vertical" />
             <Icon type="eye-o" onClick={() => this.showModal(doc)} />
+            {/* <Form /> */}
           </div>
         )
       }
@@ -74,10 +80,10 @@ export default class Datatable extends Component {
     })
   }
 
-  handleOk = e => {
-    this.setState({
-      visible: false
-    })
+  handleOk = async e => {
+    this.setState({ loading: true })
+    const response = await this.formRef.current.submit()
+    this.setState({ visible: false, loading: false })
   }
 
   handleCancel = e => {
@@ -101,10 +107,12 @@ export default class Datatable extends Component {
           handleCancel={this.handleCancel}
           handleOk={this.handleOk}
         >
-          <div className="row">
-            <div className="col-12">
-              <h1>Holaaa</h1>
-            </div>
+          <div className="row px-2">
+            <Form
+              doc={this.state.doc}
+              model={this.setColumns()}
+              ref={this.formRef}
+            />
           </div>
         </Modal>
         <Table dataSource={dataSource} columns={this.setColumns()} />

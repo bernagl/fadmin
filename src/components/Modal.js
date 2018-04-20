@@ -3,21 +3,36 @@ import { Modal as M, Button } from 'antd'
 
 export default class Modal extends Component {
   render() {
-    const { children, doc, handleCancel, handleOk, visible } = this.props
+    const {
+      children,
+      doc,
+      handleCancel,
+      handleOk,
+      loading,
+      visible
+    } = this.props
     return (
-      <div>
-        {/* <Button type="primary" onClick={this.showModal}>
-          Open
-        </Button> */}
-        <M
-          title={doc && doc.name}
-          visible={visible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          {children}
-        </M>
-      </div>
+      <M
+        title={doc && doc.name}
+        visible={visible}
+        // onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Return
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={loading && loading}
+            onClick={handleOk}
+          >
+            {!loading ? 'Save' : 'Saving'}
+          </Button>
+        ]}
+      >
+        {children}
+      </M>
     )
   }
 }
