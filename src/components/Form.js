@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Formsy from 'formsy-react'
 import Input from './InputForm'
-import { updateDocument } from '../actions/firebase'
 import { Button, Form as F, Icon, message } from 'antd'
 const { Item } = F
 
@@ -39,7 +38,7 @@ class Form extends Component {
     const model = this.formRef.current.getModel()
     const { doc, name } = this.props
     this.setState({ loading: true })
-    const response = await updateDocument(doc.key, model, name)
+    const response = await this.props.updateDocument(doc.key, model, name)
     return response
   }
 
@@ -100,6 +99,7 @@ class Form extends Component {
   }
 }
 
+// export default connect(null, { updateDocument })(Form)
 export default Form
 
 // const mapDispatchToProps = ({ data: { document }, schema }) => ({

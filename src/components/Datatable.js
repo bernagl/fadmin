@@ -1,49 +1,33 @@
 import React, { Component } from 'react'
 import Modal from './Modal'
 import Form from './Form'
-import { getCollection, getModel } from '../actions/firebase'
+import { connect } from 'react-redux'
+import { getCollection, getModel, updateDocument } from '../actions/firebase'
 import { Divider, Icon, Table, Modal as M, Popconfirm } from 'antd'
 const { confirm } = M
 
-// const dataSource = [
-//   {
-//     key: '1',
-//     name: 'Mike',
-//     age: 32,
-//     address: '10 Downing Street'
-//   },
-//   {
-//     key: '2',
-//     name: 'John',
-//     age: 42,
-//     address: '10 Downing Street'
-//   }
-// ]
-
-export default class Datatable extends Component {
+class Datatable extends Component {
   constructor(props) {
     super(props)
     this.state = { visible: false, collection: [], model: [] }
     this.formRef = React.createRef()
   }
 
-  componentWillReceiveProps(newProps) {
-    this.getData()
-  }
+  // componentWillReceiveProps(newProps) {
+  //   this.getData()
+  // }
 
   componentDidMount() {
     this.getData()
   }
 
-  getData = async (c, m) => {
-    const model = await getModel('user')
-    const collection = await getCollection('user')
-    this.setState({ collection, model })
+  getData = (c, m) => {
+    this.props.getModel('user')
+    this.props.getCollection('user')
   }
 
   setActions = () => {
-    const model = this.state.model
-    // model.push({
+    const model = this.props.model
     return {
       title: 'Actions',
       dataIndex: 'actions',
@@ -54,36 +38,11 @@ export default class Datatable extends Component {
             <Icon type="delete" onClick={() => this.showConfirm()} />
             <Divider type="vertical" />
             <Icon type="eye-o" onClick={() => this.showModal(doc)} />
-            {/* <Form /> */}
           </div>
         )
       }
     }
-    // })
-    // console.log(model)
-    // return model
   }
-
-  // setColumns = () => {
-  //   return [
-  //     {
-  //       title: 'Name',
-  //       dataIndex: 'name',
-  //       key: 'name'
-  //     },
-  //     {
-  //       title: 'Age',
-  //       dataIndex: 'age',
-  //       key: 'age'
-  //     },
-  //     {
-  //       title: 'Address',
-  //       dataIndex: 'address',
-  //       key: 'address'
-  //     },
-  //     this.setActions()
-  //   ]
-  // }
 
   showConfirm = () => {
     confirm({
@@ -103,9 +62,7 @@ export default class Datatable extends Component {
 
   handleOk = async e => {
     this.setState({ loading: true })
-    console.log('...')
     const response = await this.formRef.current.submit()
-    console.log(response)
     response && this.setState({ visible: false, loading: false })
   }
 
@@ -133,19 +90,28 @@ export default class Datatable extends Component {
           <div className="row px-2">
             <Form
               doc={this.state.doc}
-              model={this.state.model}
+              model={this.props.model}
               ref={this.formRef}
               name={'user'}
+              updateDocument={this.props.updateDocument}
             />
           </div>
         </Modal>
-        {this.state.collection.length > 0 && (
+        {this.props.documents.length > 0 && (
           <Table
-            dataSource={this.state.collection}
-            columns={[...this.state.model, this.setActions()]}
+            dataSource={this.props.documents}
+            columns={[...this.props.model, this.setActions()]}
           />
         )}
       </React.Fragment>
     )
   }
 }
+
+const mapDispatchToProps = ({ documents, model }) => ({ documents, model })
+
+export default connect(mapDispatchToProps, {
+  getCollection,
+  getModel,
+  updateDocument
+})(Datatable)

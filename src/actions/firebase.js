@@ -1,4 +1,14 @@
 import db from './firebase-config'
+import {
+  CREATE_COLLECTION,
+  CREATE_DOCUMENT,
+  DELETE_COLLECTION,
+  DELETE_DOCUMENT,
+  GET_COLLECTION,
+  GET_DOCUMENT,
+  GET_MODEL,
+  UPDATE_DOCUMENT
+} from '../types'
 
 // Documents and collections
 export const createDocument = (collection, doc) => {
@@ -18,30 +28,29 @@ export const deleteDocument = (collection, id) => {
     .catch(error => error)
 }
 
-export const getCollection = async name => {
+export const getCollection = name => async dispatch => {
   let data = []
   const collection = await db.collection(name).get()
   collection.forEach(doc => {
     data.push({ key: doc.id, ...doc.data() })
   })
-  return data
+  dispatch({ type: GET_COLLECTION, payload: data })
+  // return data
 }
 
-export const updateDocument = (id, doc, collection) => {
-  console.log('...')
-  console.log('id', id)
-  console.log('doc', doc)
-  console.log('collection', collection)
+export const updateDocument = (id, doc, collection) => dispatch => {
   return db
     .collection(collection)
     .doc(id)
     .set(doc)
-    .then(() => true)
+    .then(() =>
+      dispatch({ type: UPDATE_DOCUMENT, payload: { key: id, ...doc } })
+    )
     .catch(error => error)
 }
 
 // Schemas / Models
-export const getModel = async model => {
+export const getModel = model => async dispatch => {
   const data = []
   let collection = await db
     .collection(`model`)
@@ -51,12 +60,10 @@ export const getModel = async model => {
   for (let element in collection) {
     data.push({
       dataIndex: collection[element].key,
-      // key: collection[element].key,
       ...collection[element]
-      // title: collection[element].title
     })
   }
-  return data
+  dispatch({ type: GET_MODEL, payload: data })
   // return data
 }
 
