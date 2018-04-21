@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getCollection } from '../actions/firebase'
 import { Datatable, Header, Sidebar } from '../components'
+import { Application } from '../routes'
 import { Layout } from 'antd'
 const { Content, Footer } = Layout
 
@@ -22,7 +23,8 @@ class Dashboard extends Component {
           </Header>
           <Content style={{ margin: '24px 16px 0' }}>
             <div className="container">
-              <Datatable />
+              {/* <Datatable /> */}
+              <Application />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

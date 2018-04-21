@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Formsy from 'formsy-react'
 import Input from './InputForm'
+import { updateDocument } from '../actions/firebase'
 import { Button, Form as F, Icon, message } from 'antd'
 const { Item } = F
 
@@ -17,16 +18,16 @@ class Form extends Component {
 
   async submit() {
     // const { schema, id } = this.props.match.params
-    let model
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const model = this.formRef.current.getModel()
-        console.log('...')
-        this.setState({ loading: true })
-        resolve()
-        return model
-      }, 1000)
-    })
+    // let model
+    // return new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     const model = this.formRef.current.getModel()
+    //     console.log('...')
+    //     this.setState({ loading: true })
+    //     resolve()
+    //     return model
+    //   }, 1000)
+    // })
     // const response = (await id)
     //   ? this.props.updateDocument(id, model, schema)
     //   : this.props.createDocument(model, schema)
@@ -35,6 +36,11 @@ class Form extends Component {
     //   ? (message.success('Datos guardados correctamente'),
     //     this.setState({ loading: false }))
     //   : message.error('Ocurrió un error, por favor vuelve a intentarlo')
+    const model = this.formRef.current.getModel()
+    const { doc, name } = this.props
+    this.setState({ loading: true })
+    const response = await updateDocument(doc.key, model, name)
+    return response
   }
 
   disableButton() {

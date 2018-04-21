@@ -1,5 +1,6 @@
 import React from 'react'
-import { Menu, Icon, Layout } from 'antd'
+import { Link } from 'react-router-dom'
+import { Button, Icon, Layout, Menu } from 'antd'
 const { Sider } = Layout
 const SubMenu = Menu.SubMenu
 
@@ -70,6 +71,16 @@ export default class Sidebar extends React.Component {
               <Menu.Item key="12">Option 12</Menu.Item>
             </SubMenu>
           </SubMenu>
+          <Menu.Item key="3113">
+            <Link to="/model">
+              <Button type="dashed">Add model</Button>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="31w13">
+            <Link to="/create-model">
+              <Button type="dashed">View model</Button>
+            </Link>
+          </Menu.Item>
         </Menu>
       </Sider>
     )
@@ -78,7 +89,7 @@ export default class Sidebar extends React.Component {
 
 const styles = {
   container: {
-    height: '100vh',
+    height: '100vh'
     // position: 'fiz',
     // width: 256
   },

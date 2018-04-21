@@ -103,8 +103,10 @@ export default class Datatable extends Component {
 
   handleOk = async e => {
     this.setState({ loading: true })
+    console.log('...')
     const response = await this.formRef.current.submit()
-    this.setState({ visible: false, loading: false })
+    console.log(response)
+    response && this.setState({ visible: false, loading: false })
   }
 
   handleCancel = e => {
@@ -133,6 +135,7 @@ export default class Datatable extends Component {
               doc={this.state.doc}
               model={this.state.model}
               ref={this.formRef}
+              name={'user'}
             />
           </div>
         </Modal>

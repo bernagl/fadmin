@@ -27,7 +27,11 @@ export const getCollection = async name => {
   return data
 }
 
-export const updateDocument = (id, doc, collection) => dispatch => {
+export const updateDocument = (id, doc, collection) => {
+  console.log('...')
+  console.log('id', id)
+  console.log('doc', doc)
+  console.log('collection', collection)
   return db
     .collection(collection)
     .doc(id)
@@ -44,11 +48,12 @@ export const getModel = async model => {
     .doc(model)
     .get()
   collection = collection.data()
-  for (const element in collection) {
+  for (let element in collection) {
     data.push({
       dataIndex: collection[element].key,
-      key: collection[element].key,
-      title: collection[element].title
+      // key: collection[element].key,
+      ...collection[element]
+      // title: collection[element].title
     })
   }
   return data
