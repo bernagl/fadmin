@@ -1,31 +1,49 @@
 import React, { Component } from 'react'
 import Modal from './Modal'
 import Form from './Form'
+import { getCollection, getModel } from '../actions/firebase'
 import { Divider, Icon, Table, Modal as M, Popconfirm } from 'antd'
 const { confirm } = M
 
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  }
-]
+// const dataSource = [
+//   {
+//     key: '1',
+//     name: 'Mike',
+//     age: 32,
+//     address: '10 Downing Street'
+//   },
+//   {
+//     key: '2',
+//     name: 'John',
+//     age: 42,
+//     address: '10 Downing Street'
+//   }
+// ]
 
 export default class Datatable extends Component {
   constructor(props) {
     super(props)
-    this.state = { visible: false }
+    this.state = { visible: false, collection: [], model: [] }
     this.formRef = React.createRef()
   }
+
+  componentWillReceiveProps(newProps) {
+    this.getData()
+  }
+
+  componentDidMount() {
+    this.getData()
+  }
+
+  getData = async (c, m) => {
+    const model = await getModel('user')
+    const collection = await getCollection('user')
+    this.setState({ collection, model })
+  }
+
   setActions = () => {
+    const model = this.state.model
+    // model.push({
     return {
       title: 'Actions',
       dataIndex: 'actions',
@@ -41,28 +59,31 @@ export default class Datatable extends Component {
         )
       }
     }
+    // })
+    // console.log(model)
+    // return model
   }
 
-  setColumns = () => {
-    return [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age'
-      },
-      {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address'
-      },
-      this.setActions()
-    ]
-  }
+  // setColumns = () => {
+  //   return [
+  //     {
+  //       title: 'Name',
+  //       dataIndex: 'name',
+  //       key: 'name'
+  //     },
+  //     {
+  //       title: 'Age',
+  //       dataIndex: 'age',
+  //       key: 'age'
+  //     },
+  //     {
+  //       title: 'Address',
+  //       dataIndex: 'address',
+  //       key: 'address'
+  //     },
+  //     this.setActions()
+  //   ]
+  // }
 
   showConfirm = () => {
     confirm({
@@ -110,12 +131,17 @@ export default class Datatable extends Component {
           <div className="row px-2">
             <Form
               doc={this.state.doc}
-              model={this.setColumns()}
+              model={this.state.model}
               ref={this.formRef}
             />
           </div>
         </Modal>
-        <Table dataSource={dataSource} columns={this.setColumns()} />
+        {this.state.collection.length > 0 && (
+          <Table
+            dataSource={this.state.collection}
+            columns={[...this.state.model, this.setActions()]}
+          />
+        )}
       </React.Fragment>
     )
   }

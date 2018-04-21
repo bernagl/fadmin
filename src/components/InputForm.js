@@ -29,11 +29,7 @@ class Input extends Component {
           value={this.props.getValue()}
           onChange={this.handleInput}
           prefix={
-            icon ? (
-              <Icon type={icon} style={{ color: 'rgba(0,0,0,.25)' }} />
-            ) : (
-              ''
-            )
+            icon && <Icon type={icon} style={{ color: 'rgba(0,0,0,.25)' }} />
           }
           style={styles.input}
         />
@@ -42,10 +38,6 @@ class Input extends Component {
   }
 }
 
-const styles = {
-  input: {
-    width: '100%'
-  }
-}
+const styles = { input: { width: '100%' } }
 
 export default withFormsy(Input)

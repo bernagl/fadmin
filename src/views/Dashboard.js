@@ -6,10 +6,10 @@ import { Layout } from 'antd'
 const { Content, Footer } = Layout
 
 class Dashboard extends Component {
-  async componentDidMount() {
-    const documents = await getCollection('negocio')
-    console.log(documents)
-  }
+  // async componentDidMount() {
+  //   const documents = await getCollection('negocio')
+  //   console.log(documents)
+  // }
 
   render() {
     console.log(this.props)
