@@ -1,21 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getCollection } from '../actions/firebase'
+import { getCollection, getModels } from '../actions/firebase'
 import { Datatable, Header, Sidebar } from '../components'
 import { Application } from '../routes'
 import { Layout } from 'antd'
 const { Content, Footer } = Layout
 
 class Dashboard extends Component {
-  // async componentDidMount() {
-  //   const documents = await getCollection('negocio')
-  //   console.log(documents)
-  // }
+  async componentDidMount() {
+    // const documents = await getCollection('negocio')
+    const models = await this.props.getModels()
+    console.log(models)
+  }
 
   render() {
+    console.log(this.props)
     return (
       <Layout>
-        <Sidebar />
+        {this.props.model.data && <Sidebar models={this.props.model.data} />}
         <Layout>
           <Header>
             <h1>Hola</h1>
@@ -35,6 +37,6 @@ class Dashboard extends Component {
   }
 }
 
-const mapDispatchToProps = ({ auth }) => ({ auth })
+const mapDispatchToProps = ({ auth, model }) => ({ auth, model })
 
-export default connect(mapDispatchToProps)(Dashboard)
+export default connect(mapDispatchToProps, { getModels })(Dashboard)

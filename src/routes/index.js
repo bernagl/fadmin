@@ -18,7 +18,7 @@ export const Application = () => {
   return (
     <React.Fragment>
       <Route path="/create-model" component={Model} />
-      <Route path="/model" component={Datatable} />
+      <Route path="/model/:name" component={Datatable} />
     </React.Fragment>
   )
 }

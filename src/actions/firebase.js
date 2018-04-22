@@ -7,6 +7,7 @@ import {
   GET_COLLECTION,
   GET_DOCUMENT,
   GET_MODEL,
+  GET_MODELS,
   UPDATE_DOCUMENT
 } from '../types'
 
@@ -18,10 +19,7 @@ export const createDocument = (collection, doc) => async dispatch => {
     type: CREATE_DOCUMENT,
     payload: docCreated
   })
-
   return docCreated
-  // .then(() => console.log(snap.key, snap.data()))
-  // .catch(error => error)
 }
 
 export const deleteDocument = (collection, id) => async dispatch => {
@@ -69,6 +67,17 @@ export const getModel = model => async dispatch => {
     })
   }
   dispatch({ type: GET_MODEL, payload: data })
+  // return data
+}
+
+export const getModels = () => async dispatch => {
+  let data = []
+  const collection = await db.collection('model').get()
+  collection.forEach(doc => {
+    data.push({ key: doc.id, ...doc.data() })
+  })
+  console.log(data)
+  dispatch({ type: GET_MODELS, payload: data })
   // return data
 }
 

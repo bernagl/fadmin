@@ -16,31 +16,12 @@ class Form extends Component {
   }
 
   async submit() {
-    // const { schema, id } = this.props.match.params
-    // let model
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     const model = this.formRef.current.getModel()
-    //     console.log('...')
-    //     this.setState({ loading: true })
-    //     resolve()
-    //     return model
-    //   }, 1000)
-    // })
-    // const response = (await id)
-    //   ? this.props.updateDocument(id, model, schema)
-    //   : this.props.createDocument(model, schema)
-
-    // response
-    //   ? (message.success('Datos guardados correctamente'),
-    //     this.setState({ loading: false }))
-    //   : message.error('Ocurrió un error, por favor vuelve a intentarlo')
     const model = this.formRef.current.getModel()
     const { doc, collection } = this.props
-    console.log(this.props)
     this.setState({ loading: true })
-    const response = await doc ? this.props.updateDocument(doc.key, model, collection) 
-    : this.props.createDocument(collection, model)
+    const response = (await doc)
+      ? this.props.updateDocument(doc.key, model, collection)
+      : this.props.createDocument(collection, model)
     return response
   }
 
@@ -89,17 +70,4 @@ class Form extends Component {
   }
 }
 
-// export default connect(null, { updateDocument })(Form)
 export default Form
-
-// const mapDispatchToProps = ({ data: { document }, schema }) => ({
-//   document,
-//   schema
-// })
-
-// export default connect(mapDispatchToProps, {
-//   createDocument,
-//   getDocument,
-//   getSchema,
-//   updateDocument
-// })(FormData)

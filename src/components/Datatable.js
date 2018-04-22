@@ -28,11 +28,11 @@ class Datatable extends Component {
   }
 
   // componentWillReceiveProps(newProps) {
-  //   this.getData()
+  //   this.getData(newProps.match.params.name)
   // }
 
   componentDidMount() {
-    this.getData()
+    this.getData(this.props.match.params.name)
   }
 
   getData = (c, m) => {
@@ -41,7 +41,7 @@ class Datatable extends Component {
   }
 
   setActions = () => {
-    const model = this.props.model
+    const model = this.props.model.selected
     return {
       title: 'Actions',
       dataIndex: 'actions',
@@ -93,6 +93,8 @@ class Datatable extends Component {
     })
   }
   render() {
+    console.log(this.props)
+    const { documents, createDocument, model, updateDocument } = this.props
     return (
       <React.Fragment>
         <Modal
@@ -104,11 +106,11 @@ class Datatable extends Component {
           <div className="row px-2">
             <Form
               doc={this.state.doc}
-              model={this.props.model}
+              model={model.selected}
               ref={this.formRef}
               collection={'user'}
-              createDocument={this.props.createDocument}
-              updateDocument={this.props.updateDocument}
+              createDocument={createDocument}
+              updateDocument={updateDocument}
             />
           </div>
         </Modal>
@@ -124,10 +126,10 @@ class Datatable extends Component {
             </Button>
           </div>
         </div>
-        {this.props.documents.length > 0 ? (
+        {documents.length > 0 ? (
           <Table
-            dataSource={this.props.documents}
-            columns={[...this.props.model, this.setActions()]}
+            dataSource={documents}
+            columns={[...model.selected, this.setActions()]}
           />
         ) : (
           <div

@@ -1,9 +1,16 @@
-import { GET_MODEL } from '../types'
+import { GET_MODEL, GET_MODELS } from '../types'
 
-export default (state = [], { payload, type }) => {
+const INITIAL_STATE = {
+  data: [],
+  selected: {}
+}
+
+export default (state = INITIAL_STATE, { payload, type }) => {
   switch (type) {
     case GET_MODEL:
-      return payload
+      return { ...state, selected: payload }
+    case GET_MODELS:
+      return { ...state, data: payload }
     default:
       return state
   }
