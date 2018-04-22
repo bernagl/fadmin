@@ -11,20 +11,25 @@ import {
 } from '../types'
 
 // Documents and collections
-export const createDocument = (collection, doc) => {
-  return db
-    .collection(collection)
-    .add(doc)
-    .then(() => true)
-    .catch(error => error)
+export const createDocument = (collection, doc) => async dispatch => {
+  const response = await db.collection(collection).add(doc)
+  const docCreated = { key: response.id, ...doc }
+  dispatch({
+    type: CREATE_DOCUMENT,
+    payload: docCreated
+  })
+
+  return docCreated
+  // .then(() => console.log(snap.key, snap.data()))
+  // .catch(error => error)
 }
 
-export const deleteDocument = (collection, id) => {
+export const deleteDocument = (collection, id) => async dispatch => {
   return db
     .collection(collection)
     .doc(id)
     .delete()
-    .then(() => true)
+    .then(() => dispatch({ type: DELETE_DOCUMENT, payload: id }))
     .catch(error => error)
 }
 

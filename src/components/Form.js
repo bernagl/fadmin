@@ -36,9 +36,11 @@ class Form extends Component {
     //     this.setState({ loading: false }))
     //   : message.error('Ocurrió un error, por favor vuelve a intentarlo')
     const model = this.formRef.current.getModel()
-    const { doc, name } = this.props
+    const { doc, collection } = this.props
+    console.log(this.props)
     this.setState({ loading: true })
-    const response = await this.props.updateDocument(doc.key, model, name)
+    const response = await doc ? this.props.updateDocument(doc.key, model, collection) 
+    : this.props.createDocument(collection, model)
     return response
   }
 
@@ -72,6 +74,7 @@ class Form extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <Formsy
         onSubmit={this.submit}
@@ -80,20 +83,7 @@ class Form extends Component {
         onInvalid={this.disableButton}
         ref={this.formRef}
       >
-        <div className="row">
-          {this.props.doc && this.renderFields()}
-          {/* <div className="col-12 mt-2">
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={this.state.loading}
-              disabled={!this.state.canSubmit}
-              className="fw"
-            >
-              Guardar
-            </Button>
-          </div> */}
-        </div>
+        <div className="row">{this.renderFields()}</div>
       </Formsy>
     )
   }

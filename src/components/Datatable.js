@@ -2,14 +2,28 @@ import React, { Component } from 'react'
 import Modal from './Modal'
 import Form from './Form'
 import { connect } from 'react-redux'
-import { getCollection, getModel, updateDocument } from '../actions/firebase'
-import { Divider, Icon, Table, Modal as M, Popconfirm } from 'antd'
+import {
+  createDocument,
+  deleteDocument,
+  getCollection,
+  getModel,
+  updateDocument
+} from '../actions/firebase'
+import {
+  Button,
+  Divider,
+  Icon,
+  Table,
+  message,
+  Modal as M,
+  Popconfirm
+} from 'antd'
 const { confirm } = M
 
 class Datatable extends Component {
   constructor(props) {
     super(props)
-    this.state = { visible: false, collection: [], model: [] }
+    this.state = { doc: null, visible: false, collection: [], model: [] }
     this.formRef = React.createRef()
   }
 
@@ -35,7 +49,7 @@ class Datatable extends Component {
       render: (text, doc) => {
         return (
           <div>
-            <Icon type="delete" onClick={() => this.showConfirm()} />
+            <Icon type="delete" onClick={() => this.showConfirm(doc.key)} />
             <Divider type="vertical" />
             <Icon type="eye-o" onClick={() => this.showModal(doc)} />
           </div>
@@ -44,19 +58,19 @@ class Datatable extends Component {
     }
   }
 
-  showConfirm = () => {
+  showConfirm = key => {
+    const deleteDocument = this.props.deleteDocument
     confirm({
-      title: 'Do you Want to delete the selected item?',
+      title: 'Do you want to delete the selected item?',
       content: 'Some descriptions',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onOk() {
-        console.log('OK')
+      async onOk() {
+        const response = await deleteDocument('user', key)
+        response && message.success('Record deleted')
       },
-      onCancel() {
-        console.log('Cancel')
-      }
+      onCancel() {}
     })
   }
 
@@ -92,16 +106,40 @@ class Datatable extends Component {
               doc={this.state.doc}
               model={this.props.model}
               ref={this.formRef}
-              name={'user'}
+              collection={'user'}
+              createDocument={this.props.createDocument}
               updateDocument={this.props.updateDocument}
             />
           </div>
         </Modal>
-        {this.props.documents.length > 0 && (
+        <div className="row">
+          <div className="col-12">
+            <Button
+              type="primary"
+              onClick={() => this.showModal('')}
+              style={{ float: 'right' }}
+              className="my-2"
+            >
+              Add
+            </Button>
+          </div>
+        </div>
+        {this.props.documents.length > 0 ? (
           <Table
             dataSource={this.props.documents}
             columns={[...this.props.model, this.setActions()]}
           />
+        ) : (
+          <div
+            style={{
+              height: 500,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <h5>This model doesnt has any register :(</h5>
+          </div>
         )}
       </React.Fragment>
     )
@@ -111,6 +149,8 @@ class Datatable extends Component {
 const mapDispatchToProps = ({ documents, model }) => ({ documents, model })
 
 export default connect(mapDispatchToProps, {
+  createDocument,
+  deleteDocument,
   getCollection,
   getModel,
   updateDocument

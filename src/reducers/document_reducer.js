@@ -13,7 +13,7 @@ export default (state = [], { payload, type }) => {
     case CREATE_DOCUMENT:
       return [...state, payload]
     case DELETE_DOCUMENT:
-      return state.filter(doc => doc.key !== payload.key)
+      return state.filter(doc => doc.key !== payload)
     case UPDATE_DOCUMENT:
       return state.map(doc => (doc.key === payload.key ? payload : doc))
     default:
