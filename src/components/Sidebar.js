@@ -27,7 +27,7 @@ export default ({ models }) => {
         {models.map((item, key) => {
           return (
             <Menu.Item key={item.key}>
-              <Link to={`model/${item.key}`}>
+              <Link to={`/model/${item.key}`}>
                 <Icon type="user" />
                 <span>{item.key}</span>
               </Link>
