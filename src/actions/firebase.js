@@ -66,7 +66,7 @@ export const getModel = model => async dispatch => {
       ...collection[element]
     })
   }
-  dispatch({ type: GET_MODEL, payload: data })
+  dispatch({ type: GET_MODEL, payload: { data, model } })
   // return data
 }
 

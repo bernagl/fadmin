@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Dashboard, Model } from '../views'
-import { Datatable } from '../components'
+import { Datatable, FormModel } from '../components'
 
 export const Auth = () => {
   return (
@@ -17,8 +17,9 @@ export const Auth = () => {
 export const Application = () => {
   return (
     <React.Fragment>
-      <Route path="/create-model" component={Model} />
+      <Route path="/create-model" component={FormModel} />
       <Route path="/model/:name" component={Datatable} />
+      <Route path="//:name" component={Datatable} />
     </React.Fragment>
   )
 }

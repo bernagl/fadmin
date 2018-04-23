@@ -14,13 +14,14 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.props)
+    const { model } = this.props
+    console.log(model)
     return (
       <Layout>
-        {this.props.model.data && <Sidebar models={this.props.model.data} />}
+        {model.data && <Sidebar models={model.data} />}
         <Layout>
           <Header>
-            <h1>Hola</h1>
+            <h1 className="capitalize">{model.selectedTitle}</h1>
           </Header>
           <Content style={{ margin: '24px 16px 0' }}>
             <div className="container">

@@ -11,6 +11,10 @@
   margin-bottom: 0px;
 }
 
-.ant-modal-body{
+.ant-modal-body {
   padding-top: 0;
+}
+
+.capitalize:first-letter {
+  text-transform: capitalize;
 }
