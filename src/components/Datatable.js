@@ -36,8 +36,8 @@ class Datatable extends Component {
   }
 
   getData = (c, m) => {
-    this.props.getModel('user')
-    this.props.getCollection('user')
+    this.props.getModel(c)
+    this.props.getCollection(c)
   }
 
   setActions = () => {
@@ -93,7 +93,6 @@ class Datatable extends Component {
     })
   }
   render() {
-    console.log(this.props)
     const { documents, createDocument, model, updateDocument } = this.props
     return (
       <React.Fragment>

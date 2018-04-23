@@ -2,6 +2,7 @@ import db from './firebase-config'
 import {
   CREATE_COLLECTION,
   CREATE_DOCUMENT,
+  CREATE_MODEL,
   DELETE_COLLECTION,
   DELETE_DOCUMENT,
   GET_COLLECTION,
@@ -81,6 +82,13 @@ export const getModels = () => async dispatch => {
   // return data
 }
 
-export const createModel = async (model, name) => {
-  db.collection(`model/${name}`).add(model)
+export const createModel = (fields, name) => async dispatch => {
+  let model = {}
+  fields.map(field => (model = { ...model, [field.title]: field }))
+  const response = await db
+    .collection('model')
+    .doc(name)
+    .set(model)
+  dispatch({ type: CREATE_MODEL, payload: model })
+  return response
 }

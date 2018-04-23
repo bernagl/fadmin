@@ -8,6 +8,9 @@ export const UPDATE_DOCUMENT = 'update_document'
 export const CREATE_COLLECTION = 'create_collection'
 export const DELETE_COLLECTION = 'delete_collection'
 export const GET_COLLECTION = 'get_collection'
+export const UPDATE_COLLECTION = 'update_collection'
+
+// Models
+export const CREATE_MODEL = 'create_model'
 export const GET_MODEL = 'get_model'
 export const GET_MODELS = 'get_models'
-export const UPDATE_COLLECTION = 'update_collection'

@@ -1,4 +1,4 @@
-import { GET_MODEL, GET_MODELS } from '../types'
+import { CREATE_MODEL, GET_MODEL, GET_MODELS } from '../types'
 
 const INITIAL_STATE = {
   data: [],
@@ -12,6 +12,8 @@ export default (state = INITIAL_STATE, { payload, type }) => {
       return { ...state, selected: payload.data, selectedTitle: payload.model }
     case GET_MODELS:
       return { ...state, data: payload }
+    case CREATE_MODEL:
+      return { ...state, data: [...state.data, payload] }
     default:
       return state
   }

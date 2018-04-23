@@ -18,3 +18,16 @@
 .capitalize:first-letter {
   text-transform: capitalize;
 }
+
+.fw {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.tags-container{
+  padding: 5px;
+  border: 1px dashed #95a5a6
+}
