@@ -15,7 +15,6 @@ class Dashboard extends Component {
 
   render() {
     const { model } = this.props
-    console.log(model)
     return (
       <Layout>
         {model.data && <Sidebar models={model.data} />}

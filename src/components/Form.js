@@ -35,6 +35,7 @@ class Form extends Component {
 
   renderFields() {
     const { doc, model } = this.props
+    console.log(this.props)
     return model.map((field, key) => {
       return (
         field.key !== 'actions' && (

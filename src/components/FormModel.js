@@ -30,7 +30,7 @@ const objField = {
 class FormModel extends Component {
   constructor(props) {
     super(props)
-    this.state = { canSubmit: false, fields: [], name: '' }
+    this.state = { canSubmit: false, fields: [], name: '', nameFormated: '' }
     this.submit = this.submit.bind(this)
     this.disableButton = this.disableButton.bind(this)
     this.enableButton = this.enableButton.bind(this)
@@ -44,8 +44,8 @@ class FormModel extends Component {
     this.formRef = React.createRef()
   }
   async submit() {
-    const { name, fields } = this.state
-    const response = await this.props.createModel(fields, name)
+    const { fields, name, nameFormated } = this.state
+    const response = await this.props.createModel(fields, name, nameFormated)
     response && message.success('Model added')
   }
 
@@ -61,14 +61,21 @@ class FormModel extends Component {
     const { fields } = this.state
     let field = fields[i]
     const value = option === 'title' ? this.validate(e) : e
-    field = { ...field, [option]: value }
+    const key = option === 'title' ? value : field.key
+    field = {
+      ...field,
+      [option]: value,
+      key: key.toLowerCase()
+    }
     fields[i] = field
     this.setState({ fields })
   }
 
   handleTitle = e => {
-    let name = this.validate(e).replace(/ /g, '_')
-    this.setState({ name })
+    let nameFormated = this.validate(e)
+      .replace(/ /g, '_')
+      .toLowerCase()
+    this.setState({ name: e.target.value, nameFormated })
   }
 
   validate(e) {

@@ -14,6 +14,8 @@ import {
 
 // Documents and collections
 export const createDocument = (collection, doc) => async dispatch => {
+  console.log('collection', collection)
+  console.log('doc', doc)
   const response = await db.collection(collection).add(doc)
   const docCreated = { key: response.id, ...doc }
   dispatch({
@@ -61,12 +63,15 @@ export const getModel = model => async dispatch => {
     .doc(model)
     .get()
   collection = collection.data()
+  const name = collection.name || ''
+  delete collection.name
   for (let element in collection) {
     data.push({
       dataIndex: collection[element].key,
       ...collection[element]
     })
   }
+  console.log('model')
   dispatch({ type: GET_MODEL, payload: { data, model } })
   // return data
 }
@@ -77,17 +82,16 @@ export const getModels = () => async dispatch => {
   collection.forEach(doc => {
     data.push({ key: doc.id, ...doc.data() })
   })
-  console.log(data)
   dispatch({ type: GET_MODELS, payload: data })
   // return data
 }
 
-export const createModel = (fields, name) => async dispatch => {
-  let model = {}
+export const createModel = (fields, name, nameFormated) => async dispatch => {
+  let model = { name: name }
   fields.map(field => (model = { ...model, [field.title]: field }))
   const response = await db
     .collection('model')
-    .doc(name)
+    .doc(nameFormated)
     .set(model)
   dispatch({ type: CREATE_MODEL, payload: model })
   return response

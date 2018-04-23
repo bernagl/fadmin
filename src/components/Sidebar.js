@@ -29,7 +29,7 @@ export default ({ models }) => {
             <Menu.Item key={item.key}>
               <Link to={`/model/${item.key}`}>
                 <Icon type="user" />
-                <span>{item.key}</span>
+                <span>{item.name}</span>
               </Link>
             </Menu.Item>
           )

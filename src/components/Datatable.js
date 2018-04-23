@@ -27,9 +27,10 @@ class Datatable extends Component {
     this.formRef = React.createRef()
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   this.getData(newProps.match.params.name)
-  // }
+  componentWillReceiveProps(newProps) {
+    this.props.match.params.name !== newProps.match.params.name &&
+      this.getData(newProps.match.params.name)
+  }
 
   componentDidMount() {
     this.getData(this.props.match.params.name)
@@ -107,7 +108,7 @@ class Datatable extends Component {
               doc={this.state.doc}
               model={model.selected}
               ref={this.formRef}
-              collection={'user'}
+              collection={model.selectedTitle}
               createDocument={createDocument}
               updateDocument={updateDocument}
             />
