@@ -50,3 +50,28 @@
   opacity: 0.01;
   transition: opacity 500ms ease-in;
 }
+
+.form-item.invalid {
+  border-color: red;
+  animation: invalid;
+  animation-duration: 1s;
+}
+
+.form-item.invalid input {
+  border-color: red;
+}
+
+.form-item.invalid span {
+  color: red;
+}
+
+@keyframes invalid {
+  from {
+    /* border-color: red; */
+    transform: scale(1.01);
+  }
+  to {
+    transform: scale(1);
+    /* border-color: red; */
+  }
+}

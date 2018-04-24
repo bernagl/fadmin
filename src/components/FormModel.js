@@ -24,13 +24,20 @@ const objField = {
   title: '',
   required: false,
   type: 'text',
-  validations: ''
+  validations: '',
+  error: false
 }
 
 class FormModel extends Component {
   constructor(props) {
     super(props)
-    this.state = { canSubmit: false, fields: [], name: '', nameFormated: '' }
+    this.state = {
+      canSubmit: false,
+      fields: [],
+      isValid: true,
+      name: { value: '', error: false, formated: '' }
+      // nameFormated: ''
+    }
     this.submit = this.submit.bind(this)
     this.disableButton = this.disableButton.bind(this)
     this.enableButton = this.enableButton.bind(this)
@@ -45,10 +52,15 @@ class FormModel extends Component {
   }
   async submit() {
     const { fields, name, nameFormated } = this.state
-    console.log('name', name)
-    console.log('nameFormated', nameFormated)
-    const response = await this.props.createModel(fields, name, nameFormated)
-    response && message.success('Model added')
+    let isValid = true
+    fields.map(field => field.error || (!field.title && (isValid = false)))
+    name.error || !name.title  && (isValid = false)
+    const response = isValid
+      ? await this.props.createModel(fields, name, nameFormated)
+      : message.error('Invalid form')
+    response && isValid && message.success('Model added')
+
+    // this.setState({ isValid })
   }
 
   disableButton() {
@@ -67,35 +79,47 @@ class FormModel extends Component {
     field = {
       ...field,
       [option]: value,
-      key: key.toLowerCase()
+      key: key.toLowerCase(),
+      error: value ? false : true
     }
     fields[i] = field
     this.setState({ fields })
   }
 
   handleTitle = e => {
-    let nameFormated = this.validate(e)
+    let formated = this.validate(e)
       .replace(/ /g, '_')
       .toLowerCase()
-    this.setState({ name: e.target.value, nameFormated })
+    const error = this.emptyValidate(e.target.value)
+    this.setState({ name: { value: e.target.value, error, formated } })
   }
 
   validate(e) {
-    return (e.target.value = e.target.value.replace(/[^a-zA-Z0-9@ ]+/, ''))
+    return (e.target.value = e.target.value
+      .replace(/[^a-zA-Z0-9@ ]+/, '')
+      .trim())
+  }
+
+  emptyValidate(title) {
+    return !title || title.trim() === '' ? true : false
   }
 
   renderFields = () => {
-    const { fields } = this.state
+    const { fields, isValid } = this.state
     return (
       fields.length > 0 &&
       fields.map((field, key) => {
         return (
           <div className="row align-items-center" key={key}>
-            <div className="col-12 col-md-3">
+            <div
+              className={`col-12 col-md-3 form-item ${field.error &&
+                'invalid'}`}
+            >
               <span>Name</span>
               <Input
                 placeholder="Enter the name of the field"
                 onChange={e => this.handleField(e, key, 'title')}
+                onBlur={e => this.handleField(e, key, 'title')}
                 type={field.type}
               />
             </div>
@@ -104,30 +128,20 @@ class FormModel extends Component {
               <Select
                 placeholder="Type"
                 onChange={e => this.handleField(e, key, 'type')}
+                defaultValue="text"
               >
                 <Select.Option value="text">Text</Select.Option>
                 <Select.Option value="numeric">Numeric</Select.Option>
               </Select>
             </div>
             <div className="col-6 col-md-2">
-              {/* <div className="row align-items-center h100"> */}
-              {/* <span>Required</span> */}
-              {/* <div className="col-12"> */}
-              {/* <Radio.Group>
-                    <Radio value="true">Yes</Radio>
-                    <Radio value="false">No</Radio>
-                  </Radio.Group> */}
               <Checkbox
-                // value={this.state.checkNick}
                 onChange={e =>
                   this.handleField(e.target.checked, key, 'required')
                 }
-                // onChange={this.handleChange}
               >
                 Required
               </Checkbox>
-              {/* </div> */}
-              {/* </div> */}
             </div>
             <div className="col-6 col-md-4">
               <span>Validation</span>
@@ -138,16 +152,6 @@ class FormModel extends Component {
                 <Select.Option value="email">Is email</Select.Option>
                 <Select.Option value="numeric">Is numeric</Select.Option>
               </Select>
-              {/* <div className="tags-container">
-                <Tag>Tag 1</Tag>
-                <Tag>
-                  <a href="https://github.com/ant-design/ant-design/issues/1862">
-                    Link
-                  </a>
-                </Tag>
-                <Tag closable>Tag 2</Tag>
-                <Tag closable>Prevent Default</Tag>
-              </div> */}
             </div>
             <Divider />
           </div>
@@ -157,18 +161,15 @@ class FormModel extends Component {
   }
 
   render() {
+    const { name } = this.state
     console.log(this.state)
     return (
       <React.Fragment>
-        <Formsy
-        // onSubmit={this.submit}
-        // onValidSubmit={this.submit}
-        // onValid={this.enableButton}
-        // onInvalid={this.disableButton}
-        // ref={this.formRef}
-        >
+        <Formsy>
           <div className="row">
-            <div className="col-12 col-md-6">
+            <div
+              className={`col-12 col-md-6 form-item ${name.error && 'invalid'}`}
+            >
               <span>Name</span>
               <input
                 name="name"
@@ -196,10 +197,15 @@ class FormModel extends Component {
               </div>
             </div>
           </div>
-          {/* <div className="row">{this.renderFields()}</div> */}
         </Formsy>
       </React.Fragment>
     )
+  }
+}
+
+const styles = {
+  invalid: {
+    borderColor: 'red'
   }
 }
 

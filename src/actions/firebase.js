@@ -14,8 +14,6 @@ import {
 
 // Documents and collections
 export const createDocument = (collection, doc) => async dispatch => {
-  console.log('collection', collection)
-  console.log('doc', doc)
   const response = await db.collection(collection).add(doc)
   const docCreated = { key: response.id, ...doc }
   dispatch({
@@ -87,9 +85,12 @@ export const getModels = () => async dispatch => {
 }
 
 export const createModel = (fields, name, nameFormated) => async dispatch => {
-  let model = { name: name }
+  let model = { name: nameFormated }
   fields.map(
-    (field, index) => (model = { ...model, [field.title]: { ...field, index } })
+    (field, index) => (
+      delete field.error,
+      (model = { ...model, [field.title]: { ...field, index } })
+    )
   )
   const response = await db
     .collection('model')
