@@ -25,7 +25,6 @@ class Dashboard extends Component {
           </Header>
           <Content style={{ margin: '24px 16px 0' }}>
             <div className="container">
-              {/* <Datatable /> */}
               <Application />
             </div>
           </Content>
