@@ -88,6 +88,7 @@ class Datatable extends Component {
   }
 
   showModal = doc => {
+    console.log(this.props)
     this.setState({
       visible: true,
       doc
@@ -114,18 +115,20 @@ class Datatable extends Component {
             />
           </div>
         </Modal>
-        <div className="row">
-          <div className="col-12">
-            <Button
-              type="primary"
-              onClick={() => this.showModal('')}
-              style={{ float: 'right' }}
-              className="my-2"
-            >
-              Add
-            </Button>
+        {documents.length > 0 && (
+          <div className="row">
+            <div className="col-12">
+              <Button
+                type="primary"
+                onClick={() => this.showModal('')}
+                style={{ float: 'right' }}
+                className="my-2"
+              >
+                Add
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
         {documents.length > 0 ? (
           <Table
             dataSource={documents}
@@ -137,10 +140,18 @@ class Datatable extends Component {
               height: 500,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexDirection: 'column'
             }}
           >
-            <h5>This model doesnt has any register :(</h5>
+            <p>
+              This model doesnt has any register, add some data here{' '}
+              <Icon type="arrow-down" />
+            </p>
+            <Button type="primary" onClick={() => this.showModal('')}>
+              Add
+            </Button>
+            {/* <Icon type="frown-o" className="icon-placeholder mt-2" /> */}
           </div>
         )}
       </React.Fragment>

@@ -45,6 +45,8 @@ class FormModel extends Component {
   }
   async submit() {
     const { fields, name, nameFormated } = this.state
+    console.log('name', name)
+    console.log('nameFormated', nameFormated)
     const response = await this.props.createModel(fields, name, nameFormated)
     response && message.success('Model added')
   }

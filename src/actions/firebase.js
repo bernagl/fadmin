@@ -71,11 +71,8 @@ export const getModel = model => async dispatch => {
       ...collection[element]
     })
   }
-  console.log(data)
   data.sort((a, b) => (a.index < b.index ? -1 : a.index > b.index ? 1 : 0))
-
-  console.log(data)
-  dispatch({ type: GET_MODEL, payload: { data, model } })
+  dispatch({ type: GET_MODEL, payload: { data, model: name } })
   // return data
 }
 

@@ -27,7 +27,11 @@
   height: 100%;
 }
 
-.tags-container{
+.tags-container {
   padding: 5px;
-  border: 1px dashed #95a5a6
+  border: 1px dashed #95a5a6;
+}
+
+.icon-placeholder {
+  font-size: 4em;
 }
