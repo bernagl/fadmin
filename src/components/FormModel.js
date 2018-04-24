@@ -122,7 +122,7 @@ class FormModel extends Component {
                 }
                 // onChange={this.handleChange}
               >
-                Required?
+                Required
               </Checkbox>
               {/* </div> */}
               {/* </div> */}
@@ -157,44 +157,46 @@ class FormModel extends Component {
   render() {
     console.log(this.state)
     return (
-      <Formsy
-      // onSubmit={this.submit}
-      // onValidSubmit={this.submit}
-      // onValid={this.enableButton}
-      // onInvalid={this.disableButton}
-      // ref={this.formRef}
-      >
-        <div className="row">
-          <div className="col-12 col-md-6">
-            <span>Name</span>
-            <input
-              name="name"
-              placeholder="Name"
-              type="text"
-              pattern="[a-zA-Z]"
-              className="ant-input"
-              onChange={e => this.handleTitle(e)}
-            />
-            <Divider />
-          </div>
-          <div className="col-12">{this.renderFields()}</div>
-          <div className="col-12">
-            <div className="row">
-              <div className="col-6 col-md-3 mt-3">
-                <Button type="default" onClick={this.addField} className="fw">
-                  Add field
-                </Button>
-              </div>
-              <div className="col-12 mt-2">
-                <Button onClick={this.submit} type="primary">
-                  Save
-                </Button>
+      <React.Fragment>
+        <Formsy
+        // onSubmit={this.submit}
+        // onValidSubmit={this.submit}
+        // onValid={this.enableButton}
+        // onInvalid={this.disableButton}
+        // ref={this.formRef}
+        >
+          <div className="row">
+            <div className="col-12 col-md-6">
+              <span>Name</span>
+              <input
+                name="name"
+                placeholder="Name"
+                type="text"
+                pattern="[a-zA-Z]"
+                className="ant-input"
+                onChange={e => this.handleTitle(e)}
+              />
+              <Divider />
+            </div>
+            <div className="col-12">{this.renderFields()}</div>
+            <div className="col-12">
+              <div className="row">
+                <div className="col-6 col-md-3 mt-3">
+                  <Button type="dashed" onClick={this.addField} className="fw">
+                    Add field
+                  </Button>
+                </div>
+                <div className="col-3 col-md-4 mt-3">
+                  <Button onClick={this.submit} type="primary" className="fw">
+                    Save
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* <div className="row">{this.renderFields()}</div> */}
-      </Formsy>
+          {/* <div className="row">{this.renderFields()}</div> */}
+        </Formsy>
+      </React.Fragment>
     )
   }
 }

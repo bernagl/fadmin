@@ -22,6 +22,7 @@ class Form extends Component {
     const response = (await doc)
       ? this.props.updateDocument(doc.key, model, collection)
       : this.props.createDocument(collection, model)
+    response && message.success('Data saved')
     return response
   }
 
