@@ -57,7 +57,7 @@ export const updateDocument = (id, doc, collection) => dispatch => {
 
 // Schemas / Models
 export const getModel = model => async dispatch => {
-  const data = []
+  let data = []
   let collection = await db
     .collection(`model`)
     .doc(model)
@@ -71,7 +71,10 @@ export const getModel = model => async dispatch => {
       ...collection[element]
     })
   }
-  console.log('model')
+  console.log(data)
+  data.sort((a, b) => (a.index < b.index ? -1 : a.index > b.index ? 1 : 0))
+
+  console.log(data)
   dispatch({ type: GET_MODEL, payload: { data, model } })
   // return data
 }
@@ -88,7 +91,9 @@ export const getModels = () => async dispatch => {
 
 export const createModel = (fields, name, nameFormated) => async dispatch => {
   let model = { name: name }
-  fields.map(field => (model = { ...model, [field.title]: field }))
+  fields.map(
+    (field, index) => (model = { ...model, [field.title]: { ...field, index } })
+  )
   const response = await db
     .collection('model')
     .doc(nameFormated)

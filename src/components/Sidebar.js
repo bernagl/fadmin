@@ -34,14 +34,9 @@ export default ({ models }) => {
             </Menu.Item>
           )
         })}
-        <Menu.Item key="3113">
-          <Link to="/model">
-            <Button type="dashed">Add model</Button>
-          </Link>
-        </Menu.Item>
         <Menu.Item key="31w13">
           <Link to="/create-model">
-            <Button type="dashed">View model</Button>
+            <Button type="dashed">Create model</Button>
           </Link>
         </Menu.Item>
       </Menu>
