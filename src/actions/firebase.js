@@ -60,6 +60,7 @@ export const getModel = model => async dispatch => {
     .collection(`model`)
     .doc(model)
     .get()
+  const formatedTitle = collection.id
   collection = collection.data()
   const name = collection.name || ''
   delete collection.name
@@ -70,7 +71,7 @@ export const getModel = model => async dispatch => {
     })
   }
   data.sort((a, b) => (a.index < b.index ? -1 : a.index > b.index ? 1 : 0))
-  dispatch({ type: GET_MODEL, payload: { data, model: name } })
+  dispatch({ type: GET_MODEL, payload: { data, model: name, formatedTitle } })
   // return data
 }
 

@@ -9,15 +9,7 @@ import {
   getModel,
   updateDocument
 } from '../actions/firebase'
-import {
-  Button,
-  Divider,
-  Icon,
-  Table,
-  message,
-  Modal as M,
-  Popconfirm
-} from 'antd'
+import { Button, Divider, Icon, Table, message, Modal as M } from 'antd'
 const { confirm } = M
 
 class Datatable extends Component {
@@ -42,7 +34,6 @@ class Datatable extends Component {
   }
 
   setActions = () => {
-    const model = this.props.model.selected
     return {
       title: 'Actions',
       dataIndex: 'actions',
@@ -76,9 +67,14 @@ class Datatable extends Component {
   }
 
   handleOk = async e => {
-    this.setState({ loading: true })
-    const response = await this.formRef.current.submit()
-    response && this.setState({ visible: false, loading: false })
+    const form = this.formRef.current
+    if (form.state.canSubmit) {
+      this.setState({ loading: true })
+      const response = await form.submit()
+      response &&
+        (this.setState({ visible: false, loading: false }),
+        message.success('Data saved'))
+    } else message.error('Please validate your information')
   }
 
   handleCancel = e => {
@@ -88,7 +84,6 @@ class Datatable extends Component {
   }
 
   showModal = doc => {
-    console.log(this.props)
     this.setState({
       visible: true,
       doc
@@ -96,6 +91,7 @@ class Datatable extends Component {
   }
   render() {
     const { documents, createDocument, model, updateDocument } = this.props
+    console.log(this.props)
     return (
       <React.Fragment>
         <Modal
@@ -109,7 +105,7 @@ class Datatable extends Component {
               doc={this.state.doc}
               model={model.selected}
               ref={this.formRef}
-              collection={model.selectedTitle}
+              collection={model.formatedTitle}
               createDocument={createDocument}
               updateDocument={updateDocument}
             />
@@ -151,7 +147,6 @@ class Datatable extends Component {
             <Button type="primary" onClick={() => this.showModal('')}>
               Add
             </Button>
-            {/* <Icon type="frown-o" className="icon-placeholder mt-2" /> */}
           </div>
         )}
       </React.Fragment>

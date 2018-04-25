@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { Dashboard, Model } from '../views'
+import { Dashboard } from '../views'
 import { Datatable, FormModel } from '../components'
 
 export const Auth = () => {

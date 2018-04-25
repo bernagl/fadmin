@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getCollection, getModels } from '../actions/firebase'
+import { getModels } from '../actions/firebase'
 import { Datatable, Header, Sidebar } from '../components'
 import { Application } from '../routes'
 import { Layout } from 'antd'
@@ -8,7 +8,6 @@ const { Content, Footer } = Layout
 
 class Dashboard extends Component {
   async componentDidMount() {
-    // const documents = await getCollection('negocio')
     const models = await this.props.getModels()
     console.log(models)
   }

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import Formsy from 'formsy-react'
 import Input from './InputForm'
-import { Button, Form as F, Icon, message } from 'antd'
-const { Item } = F
+import { Form as F, message } from 'antd'
 
 class Form extends Component {
   constructor(props) {
     super(props)
-    this.state = { loading: false, button: true }
+    this.state = { canSubmit: false, loading: false, button: true }
     this.submit = this.submit.bind(this)
     this.disableButton = this.disableButton.bind(this)
     this.enableButton = this.enableButton.bind(this)
@@ -18,11 +17,11 @@ class Form extends Component {
   async submit() {
     const model = this.formRef.current.getModel()
     const { doc, collection } = this.props
-    this.setState({ loading: true })
+    this.setState({ loading: true, canSubmit: false })
     const response = (await doc)
       ? this.props.updateDocument(doc.key, model, collection)
       : this.props.createDocument(collection, model)
-    response && message.success('Data saved')
+    // response && message.success('Data saved')
     return response
   }
 
@@ -46,9 +45,9 @@ class Form extends Component {
               value={doc[field.key]}
               type={field.type}
               name={field.key}
-              //   validations={field.validations}
-              //   validationError={field.error}
-              //   required={field.required}
+              validations={field.validation}
+              validationError="Please enter a valid value"
+              required={field.required}
             />
           </div>
         )
@@ -57,13 +56,13 @@ class Form extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.state)
     return (
       <Formsy
         onSubmit={this.submit}
         onValidSubmit={this.submit}
-        onValid={this.enableButton}
-        onInvalid={this.disableButton}
+        onValid={() => this.setState({ canSubmit: true })}
+        onInvalid={() => this.setState({ canSubmit: false })}
         ref={this.formRef}
       >
         <div className="row">{this.renderFields()}</div>
