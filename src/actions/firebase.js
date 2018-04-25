@@ -85,17 +85,20 @@ export const getModels = () => async dispatch => {
   // return data
 }
 
-export const createModel = (fields, name, nameFormated) => async dispatch => {
-  let model = { name: nameFormated }
+export const createModel = (fields, name) => async dispatch => {
+  let model = { name: name.value }
   fields.map(
     (field, index) => (
       delete field.error,
+      (field.validations = field.validations.toString()),
       (model = { ...model, [field.title]: { ...field, index } })
     )
   )
+
+  console.log(model)
   const response = await db
     .collection('model')
-    .doc(nameFormated)
+    .doc(name.formated)
     .set(model)
   dispatch({ type: CREATE_MODEL, payload: model })
   return response

@@ -39,8 +39,8 @@ class FormModel extends Component {
       // nameFormated: ''
     }
     this.submit = this.submit.bind(this)
-    this.disableButton = this.disableButton.bind(this)
-    this.enableButton = this.enableButton.bind(this)
+    // this.disableButton = this.disableButton.bind(this)
+    // this.enableButton = this.enableButton.bind(this)
     this.renderFields = this.renderFields.bind(this)
     this.formRef = React.createRef()
   }
@@ -51,25 +51,36 @@ class FormModel extends Component {
     this.formRef = React.createRef()
   }
   async submit() {
-    const { fields, name, nameFormated } = this.state
+    const { fields, name } = this.state
     let isValid = true
     fields.map(field => field.error || (!field.title && (isValid = false)))
-    name.error || !name.title  && (isValid = false)
+    name.error || (!name.value && (isValid = false))
+    // const fieldsA = fields.map(field => {
+    //   let validationsObj = {}
+    //   Array.isArray(field.validations) &&
+    //     console.log(field.validations)
+    //     field.validations.map(
+    //       validation => (validationsObj = { ...validationsObj, validation })
+    //     )
+    //   field.validations = validationsObj
+    //   return field
+    // })
+    // console.log(fieldsA)
     const response = isValid
-      ? await this.props.createModel(fields, name, nameFormated)
+      ? await this.props.createModel(fields, name)
       : message.error('Invalid form')
     response && isValid && message.success('Model added')
 
     // this.setState({ isValid })
   }
 
-  disableButton() {
-    this.setState({ canSubmit: false })
-  }
+  // disableButton() {
+  //   this.setState({ canSubmit: false })
+  // }
 
-  enableButton() {
-    this.setState({ canSubmit: true })
-  }
+  // enableButton() {
+  //   this.setState({ canSubmit: true })
+  // }
 
   handleField = (e, i, option) => {
     const { fields } = this.state
@@ -95,9 +106,7 @@ class FormModel extends Component {
   }
 
   validate(e) {
-    return (e.target.value = e.target.value
-      .replace(/[^a-zA-Z0-9@ ]+/, '')
-      .trim())
+    return e.target.value.replace(/[^a-zA-Z0-9@ ]+/, '').trim()
   }
 
   emptyValidate(title) {
@@ -146,6 +155,8 @@ class FormModel extends Component {
             <div className="col-6 col-md-4">
               <span>Validation</span>
               <Select
+                mode="tags"
+                // tokenSeparators={{','}}
                 placeholder="Select a validation"
                 onChange={e => this.handleField(e, key, 'validations')}
               >
@@ -161,8 +172,8 @@ class FormModel extends Component {
   }
 
   render() {
-    const { name } = this.state
     console.log(this.state)
+    const { name } = this.state
     return (
       <React.Fragment>
         <Formsy>

@@ -45,7 +45,7 @@ class Form extends Component {
               value={doc[field.key]}
               type={field.type}
               name={field.key}
-              validations={field.validation}
+              validations={field.validations}
               validationError="Please enter a valid value"
               required={field.required}
             />
