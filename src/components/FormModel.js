@@ -9,6 +9,7 @@ import {
   Checkbox,
   Divider,
   Form as F,
+  Icon,
   message,
   Input,
   Select,
@@ -113,13 +114,26 @@ class FormModel extends Component {
     return !title || title.trim() === '' ? true : false
   }
 
+  removeField = key => {
+    const { fields } = this.state
+    delete fields[key]
+    this.setState({ fields })
+    message.success('Field removed')
+  }
+
   renderFields = () => {
     const { fields, isValid } = this.state
     return (
       fields.length > 0 &&
       fields.map((field, key) => {
         return (
-          <div className="row align-items-center" key={key}>
+          <div className="row align-items-center field-container" key={key}>
+            {/* <Button icon="close" shape="circle" className="btn-remove-field" /> */}
+            <Icon
+              type="close-circle"
+              className="icon-remove-field"
+              onClick={() => this.removeField(key)}
+            />
             <div
               className={`col-12 col-md-3 form-item ${field.error &&
                 'invalid'}`}
