@@ -95,7 +95,6 @@ export const createModel = (fields, name) => async dispatch => {
     )
   )
 
-  console.log(model)
   const response = await db
     .collection('model')
     .doc(name.formated)

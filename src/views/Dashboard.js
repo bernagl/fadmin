@@ -10,7 +10,6 @@ class Dashboard extends Component {
   state = { collapse: false }
   async componentDidMount() {
     const models = await this.props.getModels()
-    console.log(models)
   }
   collapseSidebar = () => {
     const { collapse } = this.state
@@ -19,7 +18,6 @@ class Dashboard extends Component {
 
   render() {
     const { model } = this.props
-    console.log(this.props)
     return (
       <Layout>
         {model.data && (

@@ -52,6 +52,7 @@ class Datatable extends Component {
 
   showConfirm = key => {
     const deleteDocument = this.props.deleteDocument
+    const model = this.props.model.formatedTitle
     confirm({
       title: 'Do you want to delete the selected item?',
       content: 'Some descriptions',
@@ -59,7 +60,7 @@ class Datatable extends Component {
       okType: 'danger',
       cancelText: 'No',
       async onOk() {
-        const response = await deleteDocument('user', key)
+        const response = await deleteDocument(model, key)
         response && message.success('Record deleted')
       },
       onCancel() {}
@@ -91,7 +92,6 @@ class Datatable extends Component {
   }
   render() {
     const { documents, createDocument, model, updateDocument } = this.props
-    console.log(this.props)
     return (
       <React.Fragment>
         <Modal

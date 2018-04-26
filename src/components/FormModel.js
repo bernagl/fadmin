@@ -154,7 +154,7 @@ class FormModel extends Component {
                 defaultValue="text"
               >
                 <Select.Option value="text">Text</Select.Option>
-                <Select.Option value="numeric">Numeric</Select.Option>
+                <Select.Option value="isNumeric">Numeric</Select.Option>
               </Select>
             </div>
             <div className="col-6 col-md-2">
@@ -174,8 +174,8 @@ class FormModel extends Component {
                 placeholder="Select a validation"
                 onChange={e => this.handleField(e, key, 'validations')}
               >
-                <Select.Option value="email">Is email</Select.Option>
-                <Select.Option value="numeric">Is numeric</Select.Option>
+                <Select.Option value="isEmail">Is email</Select.Option>
+                <Select.Option value="isNumeric">Is numeric</Select.Option>
               </Select>
             </div>
             <Divider />
@@ -186,7 +186,6 @@ class FormModel extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { name } = this.state
     return (
       <React.Fragment>
