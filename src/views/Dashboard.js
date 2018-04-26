@@ -7,9 +7,14 @@ import { Layout } from 'antd'
 const { Content, Footer } = Layout
 
 class Dashboard extends Component {
+  state = { collapse: false }
   async componentDidMount() {
     const models = await this.props.getModels()
     console.log(models)
+  }
+  collapseSidebar = () => {
+    const { collapse } = this.state
+    this.setState({ collapse: !collapse })
   }
 
   render() {
@@ -17,7 +22,13 @@ class Dashboard extends Component {
     console.log(this.props)
     return (
       <Layout>
-        {model.data && <Sidebar models={model.data} />}
+        {model.data && (
+          <Sidebar
+            models={model.data}
+            collapse={this.state.collapse}
+            collapseSidebar={this.collapseSidebar}
+          />
+        )}
         <Layout>
           <Header>
             <h1 className="capitalize">{model.selectedTitle}</h1>

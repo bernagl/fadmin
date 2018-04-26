@@ -4,24 +4,20 @@ import { Button, Icon, Layout, Menu } from 'antd'
 const { Sider } = Layout
 const SubMenu = Menu.SubMenu
 
-export default ({ models }) => {
-  // cosntrenderItems = () => {
-
-  let collapsed = false
-  console.log(models)
+export default ({ collapse, collapseSidebar, models }) => {
   return (
     <Sider
       breakpoint="lg"
       collapsible
-      collapsed={collapsed}
-      onCollapse={() => (collapsed = !collapsed)}
+      collapsed={collapse}
+      onCollapse={collapseSidebar}
     >
       <Menu
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
         mode="inline"
         theme="dark"
-        inlineCollapsed={collapsed}
+        inlineCollapsed={collapse}
         style={styles.container}
       >
         {models.map((item, key) => {
@@ -36,7 +32,11 @@ export default ({ models }) => {
         })}
         <Menu.Item key="31w13">
           <Link to="/create-model">
-            <Button type="dashed">Create model</Button>
+            {collapse ? (
+              <Icon type="plus-circle-o" />
+            ) : (
+              <Button type="dashed">Create model</Button>
+            )}
           </Link>
         </Menu.Item>
       </Menu>
