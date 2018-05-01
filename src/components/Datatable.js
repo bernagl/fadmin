@@ -15,13 +15,22 @@ const { confirm } = M
 class Datatable extends Component {
   constructor(props) {
     super(props)
-    this.state = { doc: null, visible: false, collection: [], model: [] }
+    this.state = {
+      doc: null,
+      visible: false,
+      collection: [],
+      loading: true,
+      model: []
+    }
     this.formRef = React.createRef()
   }
 
   componentWillReceiveProps(newProps) {
+    let loading = false
     this.props.match.params.name !== newProps.match.params.name &&
-      this.getData(newProps.match.params.name)
+      (this.getData(newProps.match.params.name), (loading = true))
+
+    this.setState({ loading })
   }
 
   componentDidMount() {
@@ -92,6 +101,7 @@ class Datatable extends Component {
   }
   render() {
     const { documents, createDocument, model, updateDocument } = this.props
+    const { loading } = this.state
     return (
       <React.Fragment>
         <Modal
@@ -129,6 +139,7 @@ class Datatable extends Component {
           <Table
             dataSource={documents}
             columns={[...model.selected, this.setActions()]}
+            loading={loading}
           />
         ) : (
           <div
