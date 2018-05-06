@@ -1,42 +1,52 @@
 import React from 'react'
 import { Upload, message, Button, Icon } from 'antd'
+import Input from './InputForm'
+import { uploadImage } from '../actions/firebase'
 
+// export default ({ handleImage, i }) => {
 export default class Uploader extends React.Component {
-  render() {
-    const props = {
-      name: 'file',
-      action: '',
-      headers: {
-        // authorization: 'authorization-text'
-      },
-      beforeUpoload: file => false,
-      onChange(info) {
-        console.log(info)
-        // if (info.file.status !== 'uploading') {
-        //   console.log(info.file, info.fileList)
-        // }
-        // if (info.file.status === 'done') {
-        //   message.success(`${info.file.name} file uploaded successfully`)
-        // } else if (info.file.status === 'error') {
-        //   message.error(`${info.file.name} file upload failed.`)
-        // }
-      }
-    }
+  //   const props = {
+  //     name: 'file',
+  //     action: '',
+  //     headers: {
+  //       // authorization: 'authorization-text'
+  //     },
+  //     beforeUpoload: file => false,
+  //     onChange(info) {
+  //         handleImage(i, info.)
+  //     }
+  //   }
+  //   console.log(i)
+  state = { image: '', url: '' }
 
+  handleImage = async e => {
+    // this.setState({ image: e.target.files[0].name })
+    const image = e.target.files[0]
+    const response = await uploadImage(this.props.model, image)
+    console.log(response)
+    response && this.setState({ image: image.name, url: response })
+  }
+  render() {
+    // console.log('image', this.state.image)
+    const { image, url } = this.state
+    const { handleImage, name, model } = this.props
     return (
       <React.Fragment>
         <input
           placeholder="image"
           type="file"
+          name={name}
           accept="image/*"
-          id="file"
-          onChange={e => console.log(e.target.files)}
+          id={name}
+          //   onChange={e => handleImage(name, e.target.files[0].name)}
+          onChange={e => this.handleImage(e)}
           style={{ display: 'none' }}
         />
         {/* <Button type="primary" icon="download" size=""> */}
-        <label htmlFor="file" className="ant-btn ant-btn-primary">
+        <label htmlFor={name} className="ant-btn ant-btn-primary">
           <Icon type="upload" /> Selecciona un archivo
         </label>
+        <Input type="hidden" name={name} value={url} />
         {/* </Button> */}
       </React.Fragment>
     )

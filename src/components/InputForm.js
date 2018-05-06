@@ -15,7 +15,8 @@ class Input extends Component {
 
   render() {
     const isValid = this.props.getErrorMessage()
-    const { icon, placeholder, type } = this.props
+    const { icon, name, placeholder, type, value } = this.props
+    // console.log('props', this.props)
     return (
       <Item
         // label={placeholder}
@@ -26,7 +27,8 @@ class Input extends Component {
         <Field
           placeholder={placeholder}
           type={type || 'text'}
-          value={this.props.getValue()}
+          name={name}
+          value={value ? value : this.props.getValue()}
           onChange={this.handleInput}
           prefix={
             icon && <Icon type={icon} style={{ color: 'rgba(0,0,0,.25)' }} />

@@ -13,7 +13,7 @@ import {
 } from '../types'
 
 const db = firebase.firestore()
-const store = firebase.storage()
+const store = firebase.storage().ref()
 
 // Documents and collections
 export const createDocument = (collection, doc) => async dispatch => {
@@ -104,4 +104,17 @@ export const createModel = (fields, name) => async dispatch => {
     .set(model)
   dispatch({ type: CREATE_MODEL, payload: model })
   return response
+}
+
+export const uploadImage = async (model, image) => {
+  const name =
+    Math.random()
+      .toString(36)
+      .substr(2, 7) + image.name.replace(/' '/g, '_')
+
+  const metadata = { contentType: image.type }
+  const response = await store.child(`${model}/${name}`).put(image, metadata)
+
+  console.log(response.downloadURL)
+  return response.downloadURL
 }

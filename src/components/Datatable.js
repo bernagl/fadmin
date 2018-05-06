@@ -78,6 +78,7 @@ class Datatable extends Component {
 
   handleOk = async e => {
     const form = this.formRef.current
+    // console.log(form.formRef.current.getModel())
     if (form.state.canSubmit) {
       this.setState({ loading: true })
       const response = await form.submit()
