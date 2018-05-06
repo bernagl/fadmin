@@ -53,7 +53,7 @@ class Form extends Component {
   }
 
   renderFields() {
-    const { doc, model } = this.props
+    const { collection, doc, model } = this.props
     console.log(model)
     return model.map((field, key) => {
       return field.key !== 'actions' && !field.isImage ? (
@@ -70,8 +70,9 @@ class Form extends Component {
         </div>
       ) : (
         <Uploader
+          value={doc[field.key]}
           handleImage={this.handleImage}
-          model={model.name}
+          model={collection}
           name={field.key}
           key={key}
         />

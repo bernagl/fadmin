@@ -23,15 +23,20 @@ export default class Uploader extends React.Component {
     // this.setState({ image: e.target.files[0].name })
     const image = e.target.files[0]
     const response = await uploadImage(this.props.model, image)
-    console.log(response)
     response && this.setState({ image: image.name, url: response })
   }
   render() {
-    // console.log('image', this.state.image)
     const { image, url } = this.state
-    const { handleImage, name, model } = this.props
+    const { handleImage, name, model, value } = this.props
     return (
       <React.Fragment>
+        {value && (
+          <img
+            src={value}
+            alt=""
+            style={{ height: 40, width: 40, borderRadius: 50 }}
+          />
+        )}
         <input
           placeholder="image"
           type="file"
@@ -46,7 +51,7 @@ export default class Uploader extends React.Component {
         <label htmlFor={name} className="ant-btn ant-btn-primary">
           <Icon type="upload" /> Selecciona un archivo
         </label>
-        <Input type="hidden" name={name} value={url} />
+        <Input type="hidden" name={name} value={url ? url : value} />
         {/* </Button> */}
       </React.Fragment>
     )
