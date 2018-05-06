@@ -1,4 +1,4 @@
-import db from './firebase-config'
+import firebase from './firebase-config'
 import {
   CREATE_COLLECTION,
   CREATE_DOCUMENT,
@@ -11,6 +11,9 @@ import {
   GET_MODELS,
   UPDATE_DOCUMENT
 } from '../types'
+
+const db = firebase.firestore()
+const store = firebase.storage()
 
 // Documents and collections
 export const createDocument = (collection, doc) => async dispatch => {

@@ -152,7 +152,7 @@ class Datatable extends Component {
             }}
           >
             <p>
-              This model doesnt has any register, add some data here{' '}
+              This model doesnt has any register, add some data here
               <Icon type="arrow-down" />
             </p>
             <Button type="primary" onClick={() => this.showModal('')}>

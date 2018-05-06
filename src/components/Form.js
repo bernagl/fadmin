@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Formsy from 'formsy-react'
 import Input from './InputForm'
 import { Form as F, message } from 'antd'
+import Uploader from './Uploader'
 
 class Form extends Component {
   constructor(props) {
@@ -54,7 +55,9 @@ class Form extends Component {
               value={doc[field.key]}
               // type={field.type}
               name={field.key}
-              validations={field.validations ? field.validations : false}
+              validations={
+                field.validations && !field.isImage ? field.validations : false
+              }
               validationError="Please enter a valid value"
               required={field.required}
             />
@@ -65,25 +68,27 @@ class Form extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
-      <Formsy
-        onSubmit={this.submit}
-        onValidSubmit={this.submit}
-        onValid={() =>
-          this.setState({
-            canSubmit: true
-          })
-        }
-        onInvalid={() =>
-          this.setState({
-            canSubmit: false
-          })
-        }
-        ref={this.formRef}
-      >
-        <div className="row"> {this.renderFields()} </div>{' '}
-      </Formsy>
+      <React.Fragment>
+        <Formsy
+          onSubmit={this.submit}
+          onValidSubmit={this.submit}
+          onValid={() =>
+            this.setState({
+              canSubmit: true
+            })
+          }
+          onInvalid={() =>
+            this.setState({
+              canSubmit: false
+            })
+          }
+          ref={this.formRef}
+        >
+          <div className="row"> {this.renderFields()} </div>{' '}
+        </Formsy>
+        <Uploader />
+      </React.Fragment>
     )
   }
 }

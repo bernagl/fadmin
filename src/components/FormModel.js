@@ -40,8 +40,6 @@ class FormModel extends Component {
       // nameFormated: ''
     }
     this.submit = this.submit.bind(this)
-    // this.disableButton = this.disableButton.bind(this)
-    // this.enableButton = this.enableButton.bind(this)
     this.renderFields = this.renderFields.bind(this)
     this.formRef = React.createRef()
   }
@@ -56,32 +54,12 @@ class FormModel extends Component {
     let isValid = true
     fields.map(field => field.error || (!field.title && (isValid = false)))
     name.error || (!name.value && (isValid = false))
-    // const fieldsA = fields.map(field => {
-    //   let validationsObj = {}
-    //   Array.isArray(field.validations) &&
-    //     console.log(field.validations)
-    //     field.validations.map(
-    //       validation => (validationsObj = { ...validationsObj, validation })
-    //     )
-    //   field.validations = validationsObj
-    //   return field
-    // })
-    // console.log(fieldsA)
+
     const response = isValid
       ? await this.props.createModel(fields, name)
       : message.error('Invalid form')
     response && isValid && message.success('Model added')
-
-    // this.setState({ isValid })
   }
-
-  // disableButton() {
-  //   this.setState({ canSubmit: false })
-  // }
-
-  // enableButton() {
-  //   this.setState({ canSubmit: true })
-  // }
 
   handleField = (e, i, option) => {
     const { fields } = this.state
@@ -92,7 +70,8 @@ class FormModel extends Component {
       ...field,
       [option]: value,
       key: key.toLowerCase(),
-      error: value ? false : true
+      error: value ? false : true,
+      isImage: e === 'image' ? true : false
     }
     fields[i] = field
     this.setState({ fields })
@@ -128,7 +107,6 @@ class FormModel extends Component {
       fields.map((field, key) => {
         return (
           <div className="row align-items-center field-container" key={key}>
-            {/* <Button icon="close" shape="circle" className="btn-remove-field" /> */}
             <Icon
               type="close-circle"
               className="icon-remove-field"
@@ -143,7 +121,7 @@ class FormModel extends Component {
                 placeholder="Enter the name of the field"
                 onChange={e => this.handleField(e, key, 'title')}
                 onBlur={e => this.handleField(e, key, 'title')}
-                type={field.type}
+                type="text"
               />
             </div>
             <div className="col-6 col-md-2">
@@ -155,6 +133,7 @@ class FormModel extends Component {
               >
                 <Select.Option value="text">Text</Select.Option>
                 <Select.Option value="isNumeric">Numeric</Select.Option>
+                <Select.Option value="image">Image</Select.Option>
               </Select>
             </div>
             <div className="col-6 col-md-2">
