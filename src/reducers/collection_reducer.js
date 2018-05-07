@@ -2,7 +2,7 @@ import { CREATE_MODEL, GET_MODEL, GET_MODELS } from '../types'
 
 const INITIAL_STATE = {
   data: [],
-  selected: {},
+  selected: [],
   selectedTitle: '',
   formatedTitle: ''
 }

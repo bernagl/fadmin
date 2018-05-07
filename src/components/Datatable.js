@@ -103,6 +103,9 @@ class Datatable extends Component {
   render() {
     const { documents, createDocument, model, updateDocument } = this.props
     const { loading } = this.state
+    // console.log('model.selected', typeof model.selected)
+    const selected = model ? model.selected.filter(field => !field.isImage) : []
+    console.log(selected)
     return (
       <React.Fragment>
         <Modal
@@ -139,7 +142,7 @@ class Datatable extends Component {
         {documents.length > 0 ? (
           <Table
             dataSource={documents}
-            columns={[...model.selected, this.setActions()]}
+            columns={[...selected, this.setActions()]}
             loading={loading}
           />
         ) : (
