@@ -30,14 +30,13 @@ export default class Uploader extends React.Component {
     const { handleImage, name, model, value } = this.props
     return (
       <React.Fragment>
-        {url ||
-          (value && (
-            <img
-              src={value ? value : url}
-              alt=""
-              style={{ height: 40, width: 40, borderRadius: 50 }}
-            />
-          ))}
+        {(url || value) && (
+          <img
+            src={url ? url : value}
+            alt=""
+            style={{ height: 40, width: 40, borderRadius: 50 }}
+          />
+        )}
         <input
           placeholder="image"
           type="file"
