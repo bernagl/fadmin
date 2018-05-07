@@ -29,14 +29,7 @@ export default class Uploader extends React.Component {
     const { image, url } = this.state
     const { handleImage, name, model, value } = this.props
     return (
-      <React.Fragment>
-        {(url || value) && (
-          <img
-            src={url ? url : value}
-            alt=""
-            style={{ height: 40, width: 40, borderRadius: 50 }}
-          />
-        )}
+      <div className="uploader col-12">
         <input
           placeholder="image"
           type="file"
@@ -48,12 +41,25 @@ export default class Uploader extends React.Component {
           style={{ display: 'none' }}
         />
         {/* <Button type="primary" icon="download" size=""> */}
-        <label htmlFor={name} className="ant-btn ant-btn-primary">
-          <Icon type="upload" /> Selecciona un archivo
+        <label htmlFor={name}>
+          {url || value ? (
+            <div className="img-container">
+              <img
+                src={url ? url : value}
+                alt=""
+                style={{ height: 40, width: 40, borderRadius: 5 }}
+              />
+              <span>Change</span>
+            </div>
+          ) : (
+            <span>
+              <Icon type="plus-circle" /> Selecciona un archivo
+            </span>
+          )}
         </label>
         <Input type="hidden" name={name} value={url ? url : value} />
         {/* </Button> */}
-      </React.Fragment>
+      </div>
     )
   }
 }

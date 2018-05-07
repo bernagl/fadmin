@@ -54,7 +54,6 @@ class Form extends Component {
 
   renderFields() {
     const { collection, doc, model } = this.props
-    console.log(model)
     return model.map((field, key) => {
       return field.key !== 'actions' && !field.isImage ? (
         <div className="col-12" key={key}>
@@ -63,7 +62,7 @@ class Form extends Component {
             value={doc[field.key]}
             // type={field.type}
             name={field.key}
-            validations={field.validations && field.validations}
+            validations={field.validations ? field.validations : null}
             validationError="Please enter a valid value"
             required={field.required}
           />
@@ -81,7 +80,7 @@ class Form extends Component {
   }
 
   render() {
-    console.log(this.state)
+    console.table(this.props.model)
     return (
       <React.Fragment>
         <Formsy

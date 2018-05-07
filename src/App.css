@@ -1,6 +1,5 @@
 @import '~antd/dist/antd.css';
 @import '~bootstrap-4-grid/css/grid.min.css';
-
 .container {
   background-color: #fff;
   margin: 0px auto;
@@ -39,13 +38,16 @@
 .fade-enter {
   opacity: 0.01;
 }
+
 .fade-enter-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
+
 .fade-exit {
   opacity: 1;
 }
+
 .fade-exit-active {
   opacity: 0.01;
   transition: opacity 500ms ease-in;
@@ -85,4 +87,29 @@
     transform: scale(1);
     /* border-color: red; */
   }
+}
+
+/* Uploader */
+
+/* .img-container {
+  position: relative;
+} */
+.uploader{
+  cursor: pointer;
+  border: 1px solid rgb(236, 243, 245);
+  /* padding:  */
+}
+.img-container span {
+  opacity: 0;
+  transition: 1s;
+  position: absolute;
+  top: 10px;
+  left: 70px;
+  cursor: pointer;
+}
+
+.img-container:hover span {
+  z-index: 10;
+  color: red;
+  opacity: 1;
 }

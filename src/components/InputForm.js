@@ -22,6 +22,7 @@ class Input extends Component {
         // label={placeholder}
         validateStatus={isValid ? 'error' : ''}
         help={isValid ? isValid : ''}
+        style={type === 'hidden' ? { display: 'none' } : null}
       >
         <span>{placeholder}</span>
         <Field
